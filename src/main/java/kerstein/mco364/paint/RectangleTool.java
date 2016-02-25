@@ -2,17 +2,18 @@ package kerstein.mco364.paint;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 public class RectangleTool implements Tool {
 
 	private int x1, y1, x2, y2, width, height;
 
-	public void mousePressed(Graphics g, int x, int y) {
+	public void mousePressed(Graphics g, int x, int y, BufferedImage buffer) {
 		g.setColor(Color.MAGENTA);
 		x1 = x;
 		y1 = y;
 		x2 = x;
-		y2 = x;
+		y2 = y;
 		width = 0;
 		height = 0;
 

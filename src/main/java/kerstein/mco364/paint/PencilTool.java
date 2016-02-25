@@ -2,13 +2,14 @@ package kerstein.mco364.paint;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 public class PencilTool implements Tool {
 
 	private int x;
 	private int y;
 
-	public void mousePressed(Graphics g, int x, int y) {
+	public void mousePressed(Graphics g, int x, int y, BufferedImage buffer) {
 		g.setColor(Color.ORANGE);
 		g.fillOval(x, y, 1, 1);
 		this.x = x;

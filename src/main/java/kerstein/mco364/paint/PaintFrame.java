@@ -87,6 +87,9 @@ public class PaintFrame extends JFrame {
 	ActionListener fillListener = new ActionListener() {
 
 		public void actionPerformed(ActionEvent event) {
+			BucketFill bucket = new BucketFill();
+			canvas.setTool(bucket);
+
 		}
 
 	};

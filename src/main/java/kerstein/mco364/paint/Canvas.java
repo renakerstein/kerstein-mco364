@@ -18,7 +18,6 @@ public class Canvas extends JPanel {
 	private Tool tool;
 
 	public Canvas() {
-
 		buffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
 		tool = new PencilTool(); // tool set to pencil by default????
 		this.addMouseListener(new MouseListener() {
@@ -37,7 +36,7 @@ public class Canvas extends JPanel {
 
 			public void mousePressed(MouseEvent event) {
 				tool.mousePressed(buffer.getGraphics(), event.getX(),
-						event.getY());
+						event.getY(), buffer);
 				repaint();
 			}
 
