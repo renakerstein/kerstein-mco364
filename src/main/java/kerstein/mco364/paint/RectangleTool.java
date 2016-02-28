@@ -2,13 +2,17 @@ package kerstein.mco364.paint;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 public class RectangleTool implements Tool {
 
 	private int x1, y1, x2, y2, width, height;
+	private Color color;
 
-	public void mousePressed(Graphics g, int x, int y, BufferedImage buffer) {
+	public RectangleTool(Color color) {
+		this.color = color;
+	}
+
+	public void mousePressed(Graphics g, int x, int y) {
 		g.setColor(Color.MAGENTA);
 		x1 = x;
 		y1 = y;
@@ -20,7 +24,7 @@ public class RectangleTool implements Tool {
 	}
 
 	public void mouseReleased(Graphics g, int x, int y) {
-		g.setColor(Color.MAGENTA);
+		g.setColor(color);
 		x2 = x;
 		y2 = y;
 		width = Math.abs(x2 - x1);
@@ -38,8 +42,13 @@ public class RectangleTool implements Tool {
 	}
 
 	public void drawPreview(Graphics g) {
-		g.setColor(Color.MAGENTA);
+		g.setColor(color);
 		g.drawRect(Math.min(x1, x2), Math.min(y1, y2), width, height);
+
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 
 	}
 

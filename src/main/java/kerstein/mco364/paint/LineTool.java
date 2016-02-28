@@ -2,7 +2,6 @@ package kerstein.mco364.paint;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.image.BufferedImage;
 
 public class LineTool implements Tool {
 
@@ -10,8 +9,13 @@ public class LineTool implements Tool {
 	private int y1;
 	private int x2;
 	private int y2;
+	private Color color;
 
-	public void mousePressed(Graphics g, int x, int y, BufferedImage buffer) {
+	public LineTool(Color color) {
+		this.color = color;
+	}
+
+	public void mousePressed(Graphics g, int x, int y) {
 		this.x1 = x;
 		this.y1 = y;
 		this.x2 = x;
@@ -19,7 +23,7 @@ public class LineTool implements Tool {
 	}
 
 	public void mouseReleased(Graphics g, int x, int y) {
-		g.setColor(Color.RED);
+		g.setColor(color);
 		g.drawLine(this.x1, this.y1, x, y);
 
 	}
@@ -31,8 +35,13 @@ public class LineTool implements Tool {
 	}
 
 	public void drawPreview(Graphics g) {
-		g.setColor(Color.RED);
+		g.setColor(color);
 		g.drawLine(x1, y1, x2, y2);
+
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 
 	}
 

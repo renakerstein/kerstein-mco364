@@ -1,19 +1,23 @@
 package kerstein.mco364.paint;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 public class PaintFrame extends JFrame {
 
-	private JButton pencil, line, rectangle, oval, fillBucket;
+	private JButton pencil, line, rectangle, oval, fillBucket, colorButton,
+	redo, undo;
 	private JPanel panel;
 	private Canvas canvas;
+	private Color color;
 
 	public PaintFrame() {
 		setTitle("PAINT");
@@ -29,15 +33,31 @@ public class PaintFrame extends JFrame {
 
 		pencil = new JButton("PENCIL");
 		pencil.addActionListener(pencilListener);
+
 		line = new JButton("LINE");
 		line.addActionListener(lineListener);
+
 		rectangle = new JButton("RECTANGLE");
 		rectangle.addActionListener(rectangleListener);
+
 		oval = new JButton("OVAL");
 		oval.addActionListener(ovalListener);
+
 		fillBucket = new JButton("FILL");
 		fillBucket.addActionListener(fillListener);
 
+		colorButton = new JButton("Choose a Color");
+		colorButton.addActionListener(colorListener);
+
+		redo = new JButton("REDO");
+		redo.addActionListener(redoListener);
+
+		undo = new JButton("Undo");
+		undo.addActionListener(undoListener);
+
+		panel.add(redo);
+		panel.add(undo);
+		panel.add(colorButton);
 		panel.add(pencil);
 		panel.add(line);
 		panel.add(rectangle);
@@ -51,7 +71,7 @@ public class PaintFrame extends JFrame {
 	ActionListener pencilListener = new ActionListener() {
 
 		public void actionPerformed(ActionEvent event) {
-			PencilTool pencil = new PencilTool();
+			PencilTool pencil = new PencilTool(color);
 			canvas.setTool(pencil);
 		}
 
@@ -60,7 +80,7 @@ public class PaintFrame extends JFrame {
 	ActionListener lineListener = new ActionListener() {
 
 		public void actionPerformed(ActionEvent event) {
-			LineTool line = new LineTool();
+			LineTool line = new LineTool(color);
 			canvas.setTool(line);
 		}
 
@@ -69,7 +89,7 @@ public class PaintFrame extends JFrame {
 	ActionListener rectangleListener = new ActionListener() {
 
 		public void actionPerformed(ActionEvent event) {
-			RectangleTool rectangle = new RectangleTool();
+			RectangleTool rectangle = new RectangleTool(color);
 			canvas.setTool(rectangle);
 		}
 
@@ -78,7 +98,7 @@ public class PaintFrame extends JFrame {
 	ActionListener ovalListener = new ActionListener() {
 
 		public void actionPerformed(ActionEvent event) {
-			OvalTool oval = new OvalTool();
+			OvalTool oval = new OvalTool(color);
 			canvas.setTool(oval);
 		}
 
@@ -87,9 +107,38 @@ public class PaintFrame extends JFrame {
 	ActionListener fillListener = new ActionListener() {
 
 		public void actionPerformed(ActionEvent event) {
-			BucketFill bucket = new BucketFill();
+			BucketFill bucket = new BucketFill(canvas, color);
 			canvas.setTool(bucket);
 
+		}
+
+	};
+
+	ActionListener colorListener = new ActionListener() {
+
+		public void actionPerformed(ActionEvent event) {
+			color = JColorChooser.showDialog(colorButton, "Pick your color",
+					color);
+			if (color != null) {
+				canvas.setColor(color);
+
+			}
+		}
+
+	};
+
+	ActionListener redoListener = new ActionListener() {
+
+		public void actionPerformed(ActionEvent event) {
+			canvas.redo();
+		}
+
+	};
+
+	ActionListener undoListener = new ActionListener() {
+
+		public void actionPerformed(ActionEvent event) {
+			canvas.undo();
 		}
 
 	};

@@ -8,12 +8,16 @@ import java.util.Queue;
 
 public class BucketFill implements Tool {
 
-	public BucketFill() {
+	private Color color;
+	private BufferedImage image;
 
+	public BucketFill(Canvas canvas, Color color) {
+		this.color = color;
+		this.image = canvas.getBuffer();
 	}
 
-	public void mousePressed(Graphics g, int x, int y, BufferedImage buffer) {
-		boundaryFill(x, y, buffer);
+	public void mousePressed(Graphics g, int x, int y) {
+		boundaryFill(x, y, image, image.getRGB(x, y), color.getRGB());
 
 	}
 
@@ -29,7 +33,8 @@ public class BucketFill implements Tool {
 
 	}
 
-	public void boundaryFill(int x, int y, BufferedImage buffer) {
+	public void boundaryFill(int x, int y, BufferedImage buffer, int srcColor,
+			int targetColor) {
 		Queue<Point> queue = new LinkedList<Point>();
 		queue.add(new Point(x, y));
 
@@ -39,39 +44,32 @@ public class BucketFill implements Tool {
 			int x1 = p.getX();
 			int y1 = p.getY();
 
-			if (x1 > 0 && x1 < buffer.getWidth() - 1 && y1 > 0
-					&& y1 < buffer.getHeight() - 1) {
-				int pixelColor = buffer.getRGB(x1, y1);
-				buffer.setRGB(x1, y1, pixelColor);
+			if (x1 > 0 && x1 < buffer.getWidth() && y1 > 0
+					&& y1 < buffer.getHeight()
+					&& buffer.getRGB(x1, y1) == srcColor) {
 
-				// test left
-				if (buffer.getRGB(x1 - 1, y1) == pixelColor) {
-					queue.add(new Point(x1 - 1, y1));
-					buffer.setRGB(x1 - 1, y1, Color.RED.getRGB());
+				buffer.setRGB(x1, y1, targetColor);
 
-				}
-				// test right
-				if (buffer.getRGB(x1 + 1, y1) == pixelColor) {
-					queue.add(new Point(x1 + 1, y1));
-					buffer.setRGB(x1 + 1, y1, Color.RED.getRGB());
+				// add left
+				queue.add(new Point(x1 - 1, y1));
 
-				}
-				// test up
-				if (buffer.getRGB(x1, y1 - 1) == pixelColor) {
-					queue.add(new Point(x1, y1 - 1));
-					buffer.setRGB(x1, y1 - 1, Color.RED.getRGB());
+				// add right
+				queue.add(new Point(x1 + 1, y1));
 
-				}
-				// test down
-				if (buffer.getRGB(x1, y1 + 1) == pixelColor) {
-					queue.add(new Point(x1, y1 + 1));
-					buffer.setRGB(x1, y1 + 1, Color.RED.getRGB());
+				// add up
+				queue.add(new Point(x1, y1 - 1));
 
-				}
+				// add down
+				queue.add(new Point(x1, y1 + 1));
 
 			}
 
 		}
+
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 
 	}
 

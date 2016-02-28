@@ -1,10 +1,13 @@
 package kerstein.mco364.paint;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.util.Stack;
 
 import javax.swing.JPanel;
 
@@ -14,12 +17,17 @@ import javax.swing.JPanel;
 
 public class Canvas extends JPanel {
 
+	private Stack<BufferedImage> undo;
+	private Stack<BufferedImage> redo;
 	private BufferedImage buffer;
 	private Tool tool;
 
 	public Canvas() {
+		undo = new Stack<BufferedImage>();
+		redo = new Stack<BufferedImage>();
 		buffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
-		tool = new PencilTool(); // tool set to pencil by default????
+		tool = new PencilTool(Color.WHITE); // tool set to pencil by default????
+
 		this.addMouseListener(new MouseListener() {
 
 			public void mouseClicked(MouseEvent event) {
@@ -35,8 +43,9 @@ public class Canvas extends JPanel {
 			}
 
 			public void mousePressed(MouseEvent event) {
+				undo.push(getImageCopy(buffer));
 				tool.mousePressed(buffer.getGraphics(), event.getX(),
-						event.getY(), buffer);
+						event.getY());
 				repaint();
 			}
 
@@ -76,6 +85,41 @@ public class Canvas extends JPanel {
 
 	public void setTool(Tool tool) {
 		this.tool = tool;
+	}
+
+	public void setColor(Color color) {
+		tool.setColor(color);
+
+	}
+
+	public BufferedImage getBuffer() {
+		return buffer;
+	}
+
+	public void redo() {
+		if (!redo.isEmpty()) {
+			BufferedImage imgCopy = getImageCopy(buffer);
+			undo.push(imgCopy);
+			buffer = redo.pop();
+			repaint();
+		}
+	}
+
+	public void undo() {
+		if (!undo.isEmpty()) {
+			BufferedImage imgCopy = getImageCopy(buffer);
+			redo.push(imgCopy);
+			buffer = undo.pop();
+			repaint();
+		}
+	}
+
+	public BufferedImage getImageCopy(BufferedImage image) {
+		BufferedImage clone = new BufferedImage(image.getWidth(),
+				image.getHeight(), image.getType());
+		Graphics2D g2d = clone.createGraphics();
+		g2d.drawImage(image, 0, 0, null);
+		return clone;
 	}
 
 }
