@@ -26,7 +26,7 @@ public class Canvas extends JPanel {
 		undo = new Stack<BufferedImage>();
 		redo = new Stack<BufferedImage>();
 		buffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
-		tool = new PencilTool(Color.WHITE); // tool set to pencil by default????
+		tool = new PencilTool(Color.BLACK); // tool set to pencil by default????
 
 		this.addMouseListener(new MouseListener() {
 
@@ -43,7 +43,7 @@ public class Canvas extends JPanel {
 			}
 
 			public void mousePressed(MouseEvent event) {
-				undo.push(getImageCopy(buffer));
+				getImageCopy(undo);
 				tool.mousePressed(buffer.getGraphics(), event.getX(),
 						event.getY());
 				repaint();
@@ -77,7 +77,6 @@ public class Canvas extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(buffer, 0, 0, null);
-
 		tool.drawPreview(g);// graphics from container - can only draw to
 		// graphics object in paintComponent.
 
@@ -98,8 +97,7 @@ public class Canvas extends JPanel {
 
 	public void redo() {
 		if (!redo.isEmpty()) {
-			BufferedImage imgCopy = getImageCopy(buffer);
-			undo.push(imgCopy);
+			getImageCopy(undo);
 			buffer = redo.pop();
 			repaint();
 		}
@@ -107,19 +105,18 @@ public class Canvas extends JPanel {
 
 	public void undo() {
 		if (!undo.isEmpty()) {
-			BufferedImage imgCopy = getImageCopy(buffer);
-			redo.push(imgCopy);
+			getImageCopy(redo);
 			buffer = undo.pop();
 			repaint();
 		}
 	}
 
-	public BufferedImage getImageCopy(BufferedImage image) {
-		BufferedImage clone = new BufferedImage(image.getWidth(),
-				image.getHeight(), image.getType());
+	public void getImageCopy(Stack<BufferedImage> stack) {
+		BufferedImage clone = new BufferedImage(buffer.getWidth(),
+				buffer.getHeight(), buffer.getType());
 		Graphics2D g2d = clone.createGraphics();
-		g2d.drawImage(image, 0, 0, null);
-		return clone;
+		g2d.drawImage(buffer, 0, 0, null);
+		stack.push(clone);
 	}
 
 }

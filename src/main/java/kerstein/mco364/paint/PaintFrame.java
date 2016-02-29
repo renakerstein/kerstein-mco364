@@ -6,6 +6,7 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JFrame;
@@ -14,8 +15,8 @@ import javax.swing.JPanel;
 public class PaintFrame extends JFrame {
 
 	private JButton pencil, line, rectangle, oval, fillBucket, colorButton,
-	redo, undo;
-	private JPanel panel;
+			redo, undo;
+	private JPanel panel, undoRedo;
 	private Canvas canvas;
 	private Color color;
 
@@ -28,35 +29,48 @@ public class PaintFrame extends JFrame {
 		container.setLayout(new BorderLayout());
 
 		canvas = new Canvas();
+
 		add(canvas, BorderLayout.CENTER);
 		this.panel = new JPanel();
 
-		pencil = new JButton("PENCIL");
+		this.color = Color.BLACK;
+
+		pencil = new JButton(new ImageIcon("pencil.png"));
 		pencil.addActionListener(pencilListener);
+		pencil.setBackground(Color.WHITE);
 
-		line = new JButton("LINE");
+		line = new JButton(new ImageIcon("line.png"));
 		line.addActionListener(lineListener);
+		line.setBackground(Color.WHITE);
 
-		rectangle = new JButton("RECTANGLE");
+		rectangle = new JButton(new ImageIcon("rectangle.png"));
 		rectangle.addActionListener(rectangleListener);
+		rectangle.setBackground(Color.WHITE);
 
-		oval = new JButton("OVAL");
+		oval = new JButton(new ImageIcon("oval.png"));
 		oval.addActionListener(ovalListener);
+		oval.setBackground(Color.WHITE);
 
-		fillBucket = new JButton("FILL");
+		fillBucket = new JButton(new ImageIcon("paintbucket.png"));
 		fillBucket.addActionListener(fillListener);
+		fillBucket.setBackground(Color.WHITE);
 
-		colorButton = new JButton("Choose a Color");
+		colorButton = new JButton(new ImageIcon("choosecolor.jpg"));
 		colorButton.addActionListener(colorListener);
+		colorButton.setBackground(Color.WHITE);
 
-		redo = new JButton("REDO");
+		undoRedo = new JPanel();
+
+		redo = new JButton(new ImageIcon("redo.png"));
 		redo.addActionListener(redoListener);
+		redo.setBackground(Color.WHITE);
 
-		undo = new JButton("Undo");
+		undo = new JButton(new ImageIcon("undo.png"));
 		undo.addActionListener(undoListener);
+		undo.setBackground(Color.WHITE);
 
-		panel.add(redo);
-		panel.add(undo);
+		undoRedo.add(undo);
+		undoRedo.add(redo);
 		panel.add(colorButton);
 		panel.add(pencil);
 		panel.add(line);
@@ -65,7 +79,7 @@ public class PaintFrame extends JFrame {
 		panel.add(fillBucket);
 
 		add(panel, BorderLayout.PAGE_START);
-
+		add(undoRedo, BorderLayout.PAGE_END);
 	}
 
 	ActionListener pencilListener = new ActionListener() {
@@ -139,6 +153,7 @@ public class PaintFrame extends JFrame {
 
 		public void actionPerformed(ActionEvent event) {
 			canvas.undo();
+
 		}
 
 	};
