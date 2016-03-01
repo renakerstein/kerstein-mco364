@@ -97,18 +97,20 @@ public class Canvas extends JPanel {
 
 	public void redo() {
 		if (!redo.isEmpty()) {
-			getImageCopy(undo);
 			buffer = redo.pop();
-			repaint();
+			getImageCopy(undo);
+
 		}
+		repaint();
 	}
 
 	public void undo() {
 		if (!undo.isEmpty()) {
 			getImageCopy(redo);
 			buffer = undo.pop();
-			repaint();
+
 		}
+		repaint();
 	}
 
 	public void getImageCopy(Stack<BufferedImage> stack) {
@@ -116,6 +118,7 @@ public class Canvas extends JPanel {
 				buffer.getHeight(), buffer.getType());
 		Graphics2D g2d = clone.createGraphics();
 		g2d.drawImage(buffer, 0, 0, null);
+		g2d.dispose();
 		stack.push(clone);
 	}
 
