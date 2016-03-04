@@ -1,23 +1,21 @@
 package kerstein.mco364.paint;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class BucketFill implements Tool {
+public class BucketFill extends Tool {
 
-	private Color color;
-	private BufferedImage image;
-
-	public BucketFill(Canvas canvas, Color color) {
-		this.color = color;
-		this.image = canvas.getBuffer();
+	private BufferedImage buffer;
+	
+	public BucketFill(PaintProperties properties) {
+		super(properties);
+		this.buffer=properties.getImage();
 	}
 
 	public void mousePressed(Graphics g, int x, int y) {
-		boundaryFill(x, y, image, image.getRGB(x, y), color.getRGB());
+		boundaryFill(x, y, buffer,buffer.getRGB(x, y), properties.getColor().getRGB());
 
 	}
 
@@ -49,7 +47,7 @@ public class BucketFill implements Tool {
 					&& buffer.getRGB(x1, y1) == srcColor) {
 
 				buffer.setRGB(x1, y1, targetColor);
-
+			
 				// add left
 				queue.add(new Point(x1 - 1, y1));
 
@@ -68,9 +66,6 @@ public class BucketFill implements Tool {
 
 	}
 
-	public void setColor(Color color) {
-		this.color = color;
 
-	}
 
 }

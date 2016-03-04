@@ -1,6 +1,5 @@
 package kerstein.mco364.paint;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -21,12 +20,14 @@ public class Canvas extends JPanel {
 	private Stack<BufferedImage> redo;
 	private BufferedImage buffer;
 	private Tool tool;
+	private PaintProperties properties;
 
-	public Canvas() {
+	public Canvas(PaintProperties properties) {
+		this.properties=properties;
 		undo = new Stack<BufferedImage>();
 		redo = new Stack<BufferedImage>();
-		buffer = new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
-		tool = new PencilTool(Color.BLACK); // tool set to pencil by default????
+		buffer = properties.getImage();
+		tool = new PencilTool(properties); 
 
 		this.addMouseListener(new MouseListener() {
 
@@ -84,11 +85,6 @@ public class Canvas extends JPanel {
 
 	public void setTool(Tool tool) {
 		this.tool = tool;
-	}
-
-	public void setColor(Color color) {
-		tool.setColor(color);
-
 	}
 
 	public BufferedImage getBuffer() {
