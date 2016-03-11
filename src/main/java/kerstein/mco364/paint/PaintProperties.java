@@ -15,7 +15,9 @@ public class PaintProperties {
 	private BufferedImage image;
 	
 	public PaintProperties(){
-		image=new BufferedImage(800, 600, BufferedImage.TYPE_INT_ARGB);
+		this.width=800;
+		this.height=600;
+		image=new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		this.color=Color.BLACK;
 	}
 	
