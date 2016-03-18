@@ -8,12 +8,15 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.util.Stack;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
 import javax.swing.JPanel;
 
 //done using polymorphism=code works with an interface/base class. 
 //you can treat objects of different types in a similar manner
 //code here works with any tool - not just a pencil tool.
 
+@Singleton
 public class Canvas extends JPanel {
 
 	private Stack<BufferedImage> undo;
@@ -22,6 +25,7 @@ public class Canvas extends JPanel {
 	private Tool tool;
 	private PaintProperties properties;
 
+	@Inject
 	public Canvas(PaintProperties properties) {
 		this.properties=properties;
 		undo = new Stack<BufferedImage>();

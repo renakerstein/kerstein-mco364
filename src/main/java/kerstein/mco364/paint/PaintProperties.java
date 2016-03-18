@@ -3,8 +3,11 @@ package kerstein.mco364.paint;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 
-/*Singleton = only one instance of it and everything has access to it**/
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+/*Singleton = only one instance of it and everything has access to it**/
+@Singleton
 public class PaintProperties {
 
 	private Color color;
@@ -14,6 +17,7 @@ public class PaintProperties {
 	private int height;
 	private BufferedImage image;
 	
+	@Inject
 	public PaintProperties(){
 		this.width=800;
 		this.height=600;

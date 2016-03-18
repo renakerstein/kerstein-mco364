@@ -18,51 +18,24 @@ import com.google.inject.Injector;
 
 public class PaintFrame extends JFrame {
 
-	private JButton colorButton,
-			redo, undo;
-	private JPanel panel, undoRedo;
+	private JButton redo, undo;
+	private JPanel undoRedo;
 	private Canvas canvas;
-	private Color color;
-	private PaintProperties properties;
 
 	@Inject
-	public PaintFrame(PaintProperties properties) {
+	public PaintFrame(Canvas canvas, PaintToolbar toolbar) {
 		setTitle("PAINT");
 		setSize(800, 600);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		Container container = getContentPane();
 		container.setLayout(new BorderLayout());
-	
-		this.properties=properties;
-		canvas = new Canvas(properties);
+		this.canvas = canvas;
 
 		add(canvas, BorderLayout.CENTER);
-	
-		this.panel = new JPanel();
+		add(toolbar, BorderLayout.NORTH);
 
-		ToolButton buttons []=new ToolButton[]{
-				new ToolButton(new PencilTool(properties),"/pencil.png"),
-				new ToolButton(new LineTool(properties),"/line.png"),
-				 new ToolButton(new RectangleTool(properties),"/rectangle.png"),
-				 new ToolButton(new OvalTool(properties),"/oval.png"),
-				 new ToolButton(new BucketFill(properties),
-							"/paintbucket.png")
-		};
-		
-		for(ToolButton button: buttons){
-			panel.add(button);
-			button.setBackground(Color.WHITE);
-			button.addActionListener(listener);
-		}
-	
-
-		colorButton = new JButton(new ImageIcon(getClass().getResource(
-				"/choosecolor.jpg")));
-		colorButton.addActionListener(colorListener);
-		colorButton.setBackground(Color.WHITE);
-
-		undoRedo = new JPanel();
+		this.undoRedo = new JPanel();
 
 		redo = new JButton(new ImageIcon(getClass().getResource("/redo.png")));
 		redo.addActionListener(redoListener);
@@ -74,36 +47,12 @@ public class PaintFrame extends JFrame {
 
 		undoRedo.add(undo);
 		undoRedo.add(redo);
-		panel.add(colorButton);
 
-		add(panel, BorderLayout.PAGE_START);
 		add(undoRedo, BorderLayout.PAGE_END);
+		
+		setVisible(true);
+
 	}
-
-
-
-	ActionListener listener = new ActionListener() {
-
-		public void actionPerformed(ActionEvent event) {
-			ToolButton button=(ToolButton) event.getSource();
-			canvas.setTool(button.getTool());
-		}
-
-	};
-
-	
-	ActionListener colorListener = new ActionListener() {
-
-		public void actionPerformed(ActionEvent event) {
-			color = JColorChooser.showDialog(colorButton, "Pick your color",
-					color);
-			if (color != null) {
-				properties.setColor(color);
-
-			}
-		}
-
-	};
 
 	ActionListener redoListener = new ActionListener() {
 
@@ -123,9 +72,16 @@ public class PaintFrame extends JFrame {
 	};
 
 	public static void main(String[] args) {
-		Injector injector=Guice.createInjector(new PaintModule());
-		PaintFrame frame=injector.getInstance(PaintFrame.class);
-		frame.setVisible(true);
+		Injector injector = Guice.createInjector(new PaintModule());
+		PaintFrame frame = injector.getInstance(PaintFrame.class); // getting a
+																	// list of
+																	// constructors
+																	// and then
+																	// looks to
+																	// use the
+																	// constructor
+																	// w/
+																	// @Inject
 	}
 
 }

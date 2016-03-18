@@ -33,6 +33,11 @@ public class BucketFill extends Tool {
 
 	public void boundaryFill(int x, int y, BufferedImage buffer, int srcColor,
 			int targetColor) {
+		
+		if ( srcColor == targetColor ) {
+			return;
+		}
+		
 		Queue<Point> queue = new LinkedList<Point>();
 		queue.add(new Point(x, y));
 
