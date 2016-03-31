@@ -1,6 +1,6 @@
 package kerstein.mco364.paint;
 
-import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -14,20 +14,20 @@ public class BucketFill extends Tool {
 		this.buffer=properties.getImage();
 	}
 
-	public void mousePressed(Graphics g, int x, int y) {
+	public void mousePressed(Graphics2D g, int x, int y) {
 		boundaryFill(x, y, buffer,buffer.getRGB(x, y), properties.getColor().getRGB());
 
 	}
 
-	public void mouseReleased(Graphics g, int x, int y) {
+	public void mouseReleased(Graphics2D g, int x, int y) {
 
 	}
 
-	public void mouseDragged(Graphics g, int x, int y) {
+	public void mouseDragged(Graphics2D g, int x, int y) {
 
 	}
 
-	public void drawPreview(Graphics g) {
+	public void drawPreview(Graphics2D g) {
 
 	}
 
