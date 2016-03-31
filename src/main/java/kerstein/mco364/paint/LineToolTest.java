@@ -2,6 +2,7 @@ package kerstein.mco364.paint;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 import org.junit.Test;
 import org.mockito.Mockito;
@@ -20,7 +21,7 @@ public class LineToolTest {
 		//mocking graphics class through Mockito 
 		//it will return to you subclass of graphics object
 		//method of Mock class returns default value of a method (ex:Integer-0)
-		Graphics g=Mockito.mock(Graphics.class);
+		Graphics2D g=(Graphics2D) Mockito.mock(Graphics.class);
 		tool.mousePressed(g, 3,7);
 		tool.mouseReleased(g, 11,13);
 	
@@ -37,7 +38,7 @@ public class LineToolTest {
 		Mockito.when(properties.getColor()).thenReturn(Color.RED);
 		LineTool tool = new LineTool(properties);
 		
-		Graphics g=Mockito.mock(Graphics.class);
+		Graphics2D g=(Graphics2D) Mockito.mock(Graphics.class);
 		tool.mousePressed(g,6,1);
 		tool.mouseReleased(g, 9,7);
 		Mockito.verify(g).setColor(Color.RED);

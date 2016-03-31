@@ -49,13 +49,13 @@ public class Canvas extends JPanel {
 
 			public void mousePressed(MouseEvent event) {
 				getImageCopy(undo);
-				tool.mousePressed(buffer.getGraphics(), event.getX(),
+				tool.mousePressed((Graphics2D)buffer.getGraphics(), event.getX(),
 						event.getY());
 				repaint();
 			}
 
 			public void mouseReleased(MouseEvent event) {
-				tool.mouseReleased(buffer.getGraphics(), event.getX(),
+				tool.mouseReleased((Graphics2D)buffer.getGraphics(), event.getX(),
 						event.getY());
 				repaint();
 			}
@@ -64,7 +64,7 @@ public class Canvas extends JPanel {
 		addMouseMotionListener(new MouseMotionListener() {
 
 			public void mouseDragged(MouseEvent event) {
-				tool.mouseDragged(buffer.getGraphics(), event.getX(),
+				tool.mouseDragged((Graphics2D)buffer.getGraphics(), event.getX(),
 						event.getY()); // graphics from long term storage -
 				// buffer
 
@@ -82,7 +82,7 @@ public class Canvas extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		g.drawImage(buffer, 0, 0, null);
-		tool.drawPreview(g);// graphics from container - can only draw to
+		tool.drawPreview((Graphics2D) g);// graphics from container - can only draw to
 		// graphics object in paintComponent.
 
 	}
