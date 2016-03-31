@@ -20,6 +20,7 @@ public class PaintProperties {
 	@Inject
 	public PaintProperties(){
 		this.width=800;
+		this.weight=8;
 		this.height=600;
 		image=new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		this.color=Color.BLACK;
