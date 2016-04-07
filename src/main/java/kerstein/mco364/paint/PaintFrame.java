@@ -5,6 +5,10 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -72,6 +76,14 @@ public class PaintFrame extends JFrame {
 	};
 
 	public static void main(String[] args) {
+
+		//changing log level
+		Logger logger =Logger.getLogger("kerstein.mco364.paint");
+		logger.setLevel(Level.FINE); //only display fine and above
+		Handler handler =new ConsoleHandler();
+		handler.setLevel(Level.FINE);
+		logger.addHandler(handler);
+		
 		Injector injector = Guice.createInjector(new PaintModule());
 		PaintFrame frame = injector.getInstance(PaintFrame.class); // getting a
 																	// list of
